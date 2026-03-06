@@ -12,10 +12,18 @@ public class LoginServlet extends HttpServlet {
                           HttpServletResponse response)
             throws ServletException, IOException {
 
-        String user = request.getParameter("username");
-        String pass = request.getParameter("password");
+        String name = request.getParameter("username");
+        String password = request.getParameter("password");
 
-        if(user.equals("admin") && pass.equals("1234")) {
+        String nameRegex = "^[A-Z][a-zA-Z]{2,}$";
+
+        if(!name.matches(nameRegex)) {
+
+            response.getWriter().println("Invalid Name! Name must start with a capital letter and have minimum 3 characters.");
+            return;
+        }
+
+        if(name.equals("Admin") && password.equals("1234")) {
 
             RequestDispatcher rd =
                     request.getRequestDispatcher("LoginSuccess.jsp");
@@ -24,7 +32,7 @@ public class LoginServlet extends HttpServlet {
         }
         else {
 
-            response.getWriter().println("Invalid Login");
+            response.getWriter().println("Invalid Login Credentials");
 
         }
     }
