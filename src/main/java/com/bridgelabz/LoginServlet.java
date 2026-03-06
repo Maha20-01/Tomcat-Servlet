@@ -16,24 +16,19 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("password");
 
         String nameRegex = "^[A-Z][a-zA-Z]{2,}$";
+        String passwordRegex = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+=!]).{8,}$";
 
         if(!name.matches(nameRegex)) {
-
-            response.getWriter().println("Invalid Name! Name must start with a capital letter and have minimum 3 characters.");
+            response.getWriter().println("Invalid Name! Must start with capital letter and have minimum 3 characters.");
             return;
         }
 
-        if(name.equals("Admin") && password.equals("1234")) {
-
-            RequestDispatcher rd =
-                    request.getRequestDispatcher("LoginSuccess.jsp");
-
-            rd.forward(request, response);
+        if(!password.matches(passwordRegex)) {
+            response.getWriter().println("Invalid Password! Must contain 8 characters, 1 uppercase, 1 number and 1 special character.");
+            return;
         }
-        else {
 
-            response.getWriter().println("Invalid Login Credentials");
-
-        }
+        // If both validations pass
+        response.getWriter().println("Login Successful! Welcome " + name);
     }
 }
